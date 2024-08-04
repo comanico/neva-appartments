@@ -5,6 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Masonry from "react-masonry-css";
 
+import ocean1 from "../public/ocean 1.jpg";
+import ocean2 from "../public/ocean 2.jpg";
+import ocean3 from "../public/ocean 3.jpg";
+import ocean4 from "../public/ocean 4.jpg";
+
 const tabs = [
   {
     key: "all",
@@ -19,6 +24,8 @@ const tabs = [
     display: "Forests",
   },
 ];
+
+const images = [];
 
 export default function Home() {
   return (
@@ -67,10 +74,14 @@ export default function Home() {
                   className="flex gap-4"
                   columnClassName=""
                 >
-                  <img src="/ocean 1.jpg" alt="ocean 1" className="my-4" />
+                  <Image src={ocean2} alt="placeholder" className="my-4" />
+                  <Image src={ocean3} alt="placeholder" className="my-4" />
+                  <Image src={ocean1} alt="placeholder" className="my-4" />
+                  <Image src={ocean4} alt="placeholder" className="my-4" />
+                  {/* <img src="/ocean 1.jpg" alt="ocean 1" className="my-4" />
                   <img src="/ocean 2.jpg" alt="ocean 1" className="my-4" />
                   <img src="/ocean 3.jpg" alt="ocean 1" className="my-4" />
-                  <img src="/ocean 4.jpg" alt="ocean 1" className="my-4" />
+                  <img src="/ocean 4.jpg" alt="ocean 1" className="my-4" /> */}
                 </Masonry>
               </Tab.Panel>
               <Tab.Panel>Oceans</Tab.Panel>
