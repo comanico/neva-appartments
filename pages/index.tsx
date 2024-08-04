@@ -4,12 +4,24 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Masonry from "react-masonry-css";
+import LightGalleryComponent from "lightgallery/react";
+import type { LightGallery } from "lightgallery/lightgallery";
+
+// import styles
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+
+// import plugins if you need
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
 
 import bgImage from "../public/photography-bg.jpg";
 import ocean1 from "../public/ocean 1.jpg";
 import ocean2 from "../public/ocean 2.jpg";
 import ocean3 from "../public/ocean 3.jpg";
 import ocean4 from "../public/ocean 4.jpg";
+import { useRef } from "react";
 
 const tabs = [
   {
@@ -29,6 +41,8 @@ const tabs = [
 const images = [ocean1, ocean2, ocean3, ocean4];
 
 export default function Home() {
+  const lightboxRef = useRef<LightGallery | null>(null);
+
   return (
     <div className="h-full overflow-auto">
       <Head>
@@ -85,16 +99,33 @@ export default function Home() {
                   className="flex gap-4"
                   columnClassName=""
                 >
-                  {images.map((image) => (
+                  {images.map((image, idx) => (
                     <Image
                       key={image.src}
                       src={image}
                       alt="placeholder"
-                      className="my-4"
+                      className="my-4 hover:opacity-70 cursor-pointer"
                       placeholder="blur"
+                      onClick={() => {
+                        lightboxRef.current?.openGallery(idx);
+                      }}
                     />
                   ))}
                 </Masonry>
+                <LightGalleryComponent
+                  onInit={(ref) => {
+                    if (ref) {
+                      lightboxRef.current = ref.instance;
+                    }
+                  }}
+                  speed={500}
+                  plugins={[lgThumbnail, lgZoom]}
+                  dynamic
+                  dynamicEl={images.map((image) => ({
+                    src: image.src,
+                    thumb: image.src,
+                  }))}
+                />
               </Tab.Panel>
               <Tab.Panel>Oceans</Tab.Panel>
               <Tab.Panel>Forests</Tab.Panel>
