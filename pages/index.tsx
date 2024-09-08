@@ -2,11 +2,9 @@ import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import Masonry from "react-masonry-css";
 import LightGalleryComponent from "lightgallery/react";
 import type { LightGallery } from "lightgallery/lightgallery";
-
 // import styles
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
@@ -21,7 +19,8 @@ import ocean1 from "../public/ocean 1.jpg";
 import ocean2 from "../public/ocean 2.jpg";
 import ocean3 from "../public/ocean 3.jpg";
 import ocean4 from "../public/ocean 4.jpg";
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
+import ContactPopup from "./contactPopup";
 
 const tabs = [
   {
@@ -39,9 +38,20 @@ const tabs = [
 ];
 
 const images = [ocean1, ocean2, ocean3, ocean4];
+const unavailableDates = [
+  new Date(2023, 8, 10), // Note: Months are zero-indexed by JavaScript Date (i.e., 8 = September)
+  new Date(2023, 8, 15),
+  new Date(2023, 8, 20),
+  new Date(2023, 8, 25),
+];
 
 export default function Home() {
   const lightboxRef = useRef<LightGallery | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
 
   return (
     <div className="h-full overflow-auto">
@@ -65,12 +75,13 @@ export default function Home() {
         <span className="uppercase text-lg font-medium">
           Photography Portfolio
         </span>
-        <Link
-          href="#"
+        <button
+          onClick={togglePopup}
           className="rounded-3xl bg-white text-stone-700 px-3 py-2 hover:bg-opacity-90"
         >
           Get in touch
-        </Link>
+        </button>
+        {showPopup && <ContactPopup onClose={togglePopup} />}
       </header>
 
       <main className="relative pt-[110px] z-20">
